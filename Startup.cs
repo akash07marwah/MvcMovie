@@ -33,6 +33,7 @@ namespace MvcMovie
             {
                 var connectionString = Configuration.GetConnectionString("MvcMovieContext");
                 var connectionStringProd = Configuration.GetConnectionString("MvcMovieProd");
+                
                 if (Environment.IsDevelopment())
                 {
                     options.UseSqlite(connectionString);
@@ -42,6 +43,23 @@ namespace MvcMovie
                     options.UseSqlServer(connectionStringProd);
                 }
             });
+
+            services.AddDbContext<TvShowsContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("MvcMovieContext");
+                var connectionStringProd = Configuration.GetConnectionString("MvcMovieProd");
+                
+                if (Environment.IsDevelopment())
+                {
+                    options.UseSqlite(connectionString);
+                }
+                else
+                {
+                    options.UseSqlServer(connectionStringProd);
+                }
+            });
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
