@@ -28,23 +28,23 @@ namespace MvcMovie.Controllers
                                             orderby m.Genre
                                             select m.Genre;
 
-            var tvShows = from m in _context.TvShows
+            var TvShows = from m in _context.TvShows
                         select m;
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                tvShows = tvShows.Where(s => s.Title.Contains(searchString));
+                TvShows = TvShows.Where(s => s.Title.Contains(searchString));
             }
 
             if (!string.IsNullOrEmpty(TvShowsGenre))
             {
-                tvShows = tvShows.Where(x => x.Genre == TvShowsGenre);
+                TvShows = TvShows.Where(x => x.Genre == TvShowsGenre);
             }
 
             var TvShowsGenreVM = new TvShowsGenreViewModel
             {
                 Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                tvShows = await tvShows.ToListAsync()
+                TvShows = await TvShows.ToListAsync()
             };
 
             return View(TvShowsGenreVM);
@@ -58,14 +58,14 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var tvShows = await _context.TvShows
+            var TvShows = await _context.TvShows
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tvShows == null)
+            if (TvShows == null)
             {
                 return NotFound();
             }
 
-            return View(tvShows);
+            return View(TvShows);
         }
 
         // GET: TvShows/Create
@@ -79,15 +79,15 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] TvShows tvShows)
+        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] TvShows TvShows)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tvShows);
+                _context.Add(TvShows);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tvShows);
+            return View(TvShows);
         }
 
         // GET: Movies/Edit/5
@@ -98,12 +98,12 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var tvShows = await _context.TvShows.FindAsync(id);
-            if (tvShows == null)
+            var TvShows = await _context.TvShows.FindAsync(id);
+            if (TvShows == null)
             {
                 return NotFound();
             }
-            return View(tvShows);
+            return View(TvShows);
         }
 
         // POST: TvShows/Edit/5
@@ -111,9 +111,9 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] TvShows tvShows)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] TvShows TvShows)
         {
-            if (id != tvShows.Id)
+            if (id != TvShows.Id)
             {
                 return NotFound();
             }
@@ -122,12 +122,12 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(tvShows);
+                    _context.Update(TvShows);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TvShowsExists(tvShows.Id))
+                    if (!TvShowsExists(TvShows.Id))
                     {
                         return NotFound();
                     }
@@ -138,7 +138,7 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tvShows);
+            return View(TvShows);
         }
 
         // GET: TvShows/Delete/5
@@ -149,14 +149,14 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var tvShows = await _context.TvShows
+            var TvShows = await _context.TvShows
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tvShows == null)
+            if (TvShows == null)
             {
                 return NotFound();
             }
 
-            return View(tvShows);
+            return View(TvShows);
         }
 
         // POST: Movies/Delete/5
@@ -164,8 +164,8 @@ namespace MvcMovie.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tvShows = await _context.TvShows.FindAsync(id);
-            _context.TvShows.Remove(tvShows);
+            var TvShows = await _context.TvShows.FindAsync(id);
+            _context.TvShows.Remove(TvShows);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

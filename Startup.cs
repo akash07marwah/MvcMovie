@@ -58,7 +58,20 @@ namespace MvcMovie
                     options.UseSqlServer(connectionStringProd);
                 }
             });
-            
+            services.AddDbContext<GameContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("MvcMovieContext");
+                var connectionStringProd = Configuration.GetConnectionString("MvcMovieProd");
+                
+                if (Environment.IsDevelopment())
+                {
+                    options.UseSqlite(connectionString);
+                }
+                else
+                {
+                    options.UseSqlServer(connectionStringProd);
+                }
+            });
             
         }
 
